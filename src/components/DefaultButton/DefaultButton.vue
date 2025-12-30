@@ -1,0 +1,52 @@
+<script setup lang="ts">
+type DefaultButtonPros = {
+  color?: 'green' | 'red'
+}
+
+const props = withDefaults(defineProps<DefaultButtonPros>(), {
+  color: 'green'
+})
+
+</script>
+
+<template>
+  <button class="button" :class="props.color">
+    <slot />
+  </button>
+</template>
+
+<style scoped>
+.button {
+  border: none;
+  background-color: var(--primary);
+  color: var(--text-over-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24rem;
+  padding: 0.8rem;
+  border-radius: 0.8rem;
+  margin: 3.2rem 0;
+  cursor: pointer;
+  transition: all .1s ease-in-out;
+}
+
+.button :deep(svg) {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
+.button:hover {
+  filter: brightness(80%);
+}
+
+.green {
+  background-color: var(--primary);
+  color: var(--text-over-primary);
+}
+
+.red {
+  background-color: var(--error);
+  color: var(--text-over-error);
+}
+</style>

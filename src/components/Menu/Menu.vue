@@ -1,24 +1,14 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import { HistoryIcon, HouseIcon, SettingsIcon, SunIcon } from "lucide-vue-next";
-
-export default defineComponent({
-    components: {
-        HistoryIcon,
-        HouseIcon,
-        SettingsIcon,
-        SunIcon
-    }
-})
 </script>
 
 <template>
     <nav class="menu">
         <a class="menuLink" href="#">
-            <HistoryIcon />
+            <HouseIcon />
         </a>
         <a class="menuLink" href="#">
-            <HouseIcon />
+            <HistoryIcon />
         </a>
         <a class="menuLink" href="#">
             <SettingsIcon />
