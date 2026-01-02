@@ -5,7 +5,7 @@ import CountDown from './components/CountDown/index';
 import Cycles from './components/Cycles/index';
 import DefaultButton from './components/DefaultButton/index';
 import DefaultInput from './components/DefaultInput/index';
-import Logo from './components/Menu/Logo/index';
+import Logo from './components/Logo/index';
 import Menu from './components/Menu/index';
 import Footer from './components/Footer/index';
 
