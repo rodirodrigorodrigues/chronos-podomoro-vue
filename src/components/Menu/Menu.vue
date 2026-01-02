@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import { HistoryIcon, HouseIcon, SettingsIcon, SunIcon } from "lucide-vue-next";
-import { ref, watch } from "vue";
+import { HistoryIcon, HouseIcon, SettingsIcon, SunIcon, MoonIcon } from "lucide-vue-next";
+import { ref, watch, computed } from "vue";
 
 type availableTheme = 'dark' | 'light';
 
-const theme = ref<availableTheme>('dark');
+const theme = ref<availableTheme>(
+  (localStorage.getItem('theme') as availableTheme) || 'dark'
+);
+
+const nextThemeIcon = computed(() => {
+  return theme.value === 'dark' ? SunIcon : MoonIcon;
+});
 
 function handleThemeChange(e: MouseEvent) {
   e.preventDefault();
   theme.value = theme.value === 'dark' ? 'light' : 'dark';
 }
 
-watch(theme, (newTheme) => {
-  document.documentElement.setAttribute('data-theme', newTheme)
-})
+watch(
+  theme,
+  (newTheme) => {
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  },
+  { immediate: true } // To run immediately upon assembling the component and to retrieve and load the initial theme.
+);
 </script>
 
 <template>
@@ -28,7 +39,7 @@ watch(theme, (newTheme) => {
       <SettingsIcon />
     </a>
     <a class="menuLink" href="#" aria-label="Mudar tema" title="Mudar tema" @click="handleThemeChange">
-      <SunIcon />
+      <component :is="nextThemeIcon" />
     </a>
   </nav>
 </template>
