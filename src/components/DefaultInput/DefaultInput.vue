@@ -1,19 +1,28 @@
 <script setup lang="ts">
-import { useAttrs } from 'vue';
+import { useAttrs } from "vue";
 type DefaultInputPros = {
   id: string;
   labelText: string;
-}
+  modelValue: string;
+};
 
 // atributos declarados com defineProps
 const props = defineProps<DefaultInputPros>();
 // atributos não declarados como props
 const attrs = useAttrs();
+
+const emit = defineEmits(["update:modelValue"]);
 </script>
 
 <template>
   <label for="meuInput">{{ props.labelText }}</label>
-  <input class="input" :id="props.id" v-bind="attrs">
+  <input
+    class="input"
+    :id="props.id"
+    v-bind="attrs"
+    :value="modelValue"
+    @input="emit('update:modelValue', $event.target.value)"
+  />
 </template>
 
 <style scoped>
