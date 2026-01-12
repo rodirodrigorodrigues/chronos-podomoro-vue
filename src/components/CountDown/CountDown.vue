@@ -1,6 +1,10 @@
+<script setup>
+  import { useTaskStore } from '../../store/taskStore';
+  const taskStore = useTaskStore();
+</script>
 <template>
   <div class="container">
-    00:00
+    {{ taskStore.formattedSecondsRemaining }}
   </div>
 </template>
 
