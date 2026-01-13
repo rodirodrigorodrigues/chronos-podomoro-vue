@@ -23,6 +23,7 @@ export const useTaskStore = defineStore("taskStore", {
     createTask(task: TaskModel) {
       this.currentCycle = getNextCycle(this.currentCycle);
       task.type = getNextCycleType(this.currentCycle);
+      task.duration = this.config[task.type];
       this.tasks.push(task);
       this.activeTask = task;
       this.secondsRemaining = task.duration * 60;
