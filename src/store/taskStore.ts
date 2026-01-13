@@ -3,6 +3,7 @@ import type { TaskStateModel } from "../models/TaskStateModel";
 import type { TaskModel } from "../models/TaskModel";
 import { getNextCycle } from "../utils/getNextCycle";
 import { getNextCycleType } from "../utils/getNextCycleType";
+import { formatSecondsToMinutes } from "../utils/formatSecondsToMinutes";
 
 const initialState: TaskStateModel = {
   tasks: [],
@@ -27,7 +28,7 @@ export const useTaskStore = defineStore("taskStore", {
       this.tasks.push(task);
       this.activeTask = task;
       this.secondsRemaining = task.duration * 60;
-      this.formattedSecondsRemaining = "00:00";
+      this.formattedSecondsRemaining = formatSecondsToMinutes(this.secondsRemaining);
     },
   },
 });
