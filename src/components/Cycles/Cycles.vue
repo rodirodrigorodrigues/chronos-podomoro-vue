@@ -1,15 +1,40 @@
+<script setup>
+import { computed } from "vue";
+import { useTaskStore } from "../../store/taskStore";
+import { getNextCycle } from "../../utils/getNextCycle";
+import { getNextCycleType } from "../../utils/getNextCycleType";
+
+const taskStore = useTaskStore();
+const cycleStep = computed(() =>
+  Array.from({ length: taskStore.currentCycle }).map((_, i) => {
+    const nextCycle = getNextCycle(i);
+    const nextCycleType = getNextCycleType(nextCycle);
+    return {
+      key: `${nextCycle}_${nextCycleType}`,
+      nextCycleType,
+      label: cycleDescriptionMap[nextCycleType],
+    };
+  })
+);
+const cycleDescriptionMap = {
+  workTime: "foco",
+  shortBreakTime: "pausa curta",
+  longBreakTime: "pausa longa",
+};
+</script>
+
 <template>
   <div class="cycles">
     <span>Ciclos:</span>
     <div class="cycleDots">
-      <span class="cycleDot workTime"></span>
-      <span class="cycleDot shortBreakTime"></span>
-      <span class="cycleDot workTime"></span>
-      <span class="cycleDot shortBreakTime"></span>
-      <span class="cycleDot workTime"></span>
-      <span class="cycleDot shortBreakTime"></span>
-      <span class="cycleDot workTime"></span>
-      <span class="cycleDot longBreakTime"></span>
+      <span
+        v-for="cycle in cycleStep"
+        :key="cycle.key"
+        :aria-label="`Indicador de ciclo de ${cycle.label}`"
+        :title="`Indicador de ciclo de ${cycle.label}`"
+        class="cycleDot"
+        :class="cycle.nextCycleType"
+      ></span>
     </div>
   </div>
 </template>

@@ -8,7 +8,6 @@ import type { TaskModel } from "../../models/TaskModel";
 import { useTaskStore } from "../../store/taskStore";
 
 const taskStore = useTaskStore();
-
 const taskName = ref<string>("");
 
 function handleCreateNewTask(e: Event) {
@@ -47,7 +46,7 @@ function handleCreateNewTask(e: Event) {
     <div className="formRow">
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
     </div>
-    <div className="formRow">
+    <div className="formRow" v-if="taskStore.currentCycle > 0">
       <Cycles />
     </div>
     <div className="formRow">
