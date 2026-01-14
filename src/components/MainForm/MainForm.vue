@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { PlayCircleIcon } from "lucide-vue-next";
+import { PlayCircleIcon, StopCircleIcon } from "lucide-vue-next";
 import Cycles from "../Cycles/index";
 import DefaultButton from "../DefaultButton/index";
 import DefaultInput from "../DefaultInput/index";
@@ -35,13 +35,8 @@ function handleCreateNewTask(e: Event) {
 <template>
   <form class="form" @submit.prevent="handleCreateNewTask">
     <div class="formRow">
-      <DefaultInput
-        labelText="Label"
-        id="meuInput"
-        type="text"
-        placeholder="Digite algo"
-        v-model="taskName"
-      />
+      <DefaultInput labelText="Label" id="meuInput" type="text" placeholder="Digite algo" v-model="taskName"
+        :disabled="!!taskStore.activeTask" />
     </div>
     <div className="formRow">
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
@@ -50,9 +45,16 @@ function handleCreateNewTask(e: Event) {
       <Cycles />
     </div>
     <div className="formRow">
-      <DefaultButton color="green">
-        <PlayCircleIcon />
-      </DefaultButton>
+      <template v-if="!taskStore.activeTask">
+        <DefaultButton aria-label="Iniciar nova tarefa" title="Iniciar nova tarefa" color="green">
+          <PlayCircleIcon />
+        </DefaultButton>
+      </template>
+      <template v-else>
+        <DefaultButton aria-label="Interromper tarefa" title="Interromper tarefa" color="red">
+          <StopCircleIcon />
+        </DefaultButton>
+      </template>
     </div>
   </form>
 </template>
