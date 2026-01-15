@@ -34,6 +34,12 @@ export const useTaskStore = defineStore("taskStore", {
       this.activeTask = null;
       this.secondsRemaining = 0;
       this.formattedSecondsRemaining = "00:00";
+      this.tasks = this.tasks.map((task) => {
+        if (task.id === this.activeTask?.id) {
+          return { ...task, interrupted: Date.now() };
+        }
+        return task;
+      });
     }
   },
 });
