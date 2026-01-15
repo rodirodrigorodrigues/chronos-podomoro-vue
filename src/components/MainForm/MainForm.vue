@@ -30,6 +30,10 @@ function handleCreateNewTask(e: Event) {
   // Atualiza o estado do Pinia
   taskStore.createTask(newTask);
 }
+
+function handleInterruptTask() {
+  taskStore.interruptTask();
+}
 </script>
 
 <template>
@@ -46,12 +50,13 @@ function handleCreateNewTask(e: Event) {
     </div>
     <div className="formRow">
       <template v-if="!taskStore.activeTask">
-        <DefaultButton aria-label="Iniciar nova tarefa" title="Iniciar nova tarefa" color="green">
+        <DefaultButton aria-label="Iniciar nova tarefa" title="Iniciar nova tarefa" color="green" type="submit">
           <PlayCircleIcon />
         </DefaultButton>
       </template>
       <template v-else>
-        <DefaultButton aria-label="Interromper tarefa" title="Interromper tarefa" color="red">
+        <DefaultButton aria-label="Interromper tarefa" title="Interromper tarefa" color="red" type="button"
+          @click="handleInterruptTask">
           <StopCircleIcon />
         </DefaultButton>
       </template>

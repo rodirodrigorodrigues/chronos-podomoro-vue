@@ -30,5 +30,10 @@ export const useTaskStore = defineStore("taskStore", {
       this.secondsRemaining = task.duration * 60;
       this.formattedSecondsRemaining = formatSecondsToMinutes(this.secondsRemaining);
     },
+    interruptTask() {
+      this.activeTask = null;
+      this.secondsRemaining = 0;
+      this.formattedSecondsRemaining = "00:00";
+    }
   },
 });
