@@ -6,6 +6,7 @@ import DefaultButton from "../DefaultButton/index";
 import DefaultInput from "../DefaultInput/index";
 import type { TaskModel } from "../../models/TaskModel";
 import { useTaskStore } from "../../store/taskStore";
+import Tips from "../Tips/index";
 
 const taskStore = useTaskStore();
 const taskName = ref<string>("");
@@ -43,7 +44,7 @@ function handleInterruptTask() {
         :disabled="!!taskStore.activeTask" />
     </div>
     <div className="formRow">
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <Tips />
     </div>
     <div className="formRow" v-if="taskStore.currentCycle > 0">
       <Cycles />
