@@ -12,34 +12,68 @@ const initialState: TaskStateModel = {
   activeTask: null,
   currentCycle: 0,
   config: {
-    workTime: 25,
-    shortBreakTime: 5,
-    longBreakTime: 15,
+    workTime: 1,
+    shortBreakTime: 1,
+    longBreakTime: 1,
   },
 };
 
 export const useTaskStore = defineStore("taskStore", {
   state: (): TaskStateModel => ({ ...initialState }),
+
   actions: {
     createTask(task: TaskModel) {
-      this.currentCycle = getNextCycle(this.currentCycle);
-      task.type = getNextCycleType(this.currentCycle);
+      const nextCycle = getNextCycle(this.currentCycle);
+
+      task.type = getNextCycleType(nextCycle);
       task.duration = this.config[task.type];
+
+      const secondsRemaining = task.duration * 60;
+
+      this.currentCycle = nextCycle;
       this.tasks.push(task);
       this.activeTask = task;
-      this.secondsRemaining = task.duration * 60;
-      this.formattedSecondsRemaining = formatSecondsToMinutes(this.secondsRemaining);
+      this.secondsRemaining = secondsRemaining;
+      this.formattedSecondsRemaining =
+        formatSecondsToMinutes(secondsRemaining);
     },
+
     interruptTask() {
+      const activeTaskId = this.activeTask?.id;
+
+      this.tasks = this.tasks.map(task =>
+        task.id === activeTaskId
+          ? { ...task, interruptDate: Date.now() }
+          : task
+      );
+
       this.activeTask = null;
       this.secondsRemaining = 0;
       this.formattedSecondsRemaining = "00:00";
-      this.tasks = this.tasks.map((task) => {
-        if (task.id === this.activeTask?.id) {
-          return { ...task, interrupted: Date.now() };
-        }
-        return task;
-      });
+    },
+
+    completeTask() {
+      const activeTaskId = this.activeTask?.id;
+
+      this.tasks = this.tasks.map(task =>
+        task.id === activeTaskId
+          ? { ...task, completeDate: Date.now() }
+          : task
+      );
+
+      this.activeTask = null;
+      this.secondsRemaining = 0;
+      this.formattedSecondsRemaining = "00:00";
+    },
+
+    countDown(secondsRemaining: number) {
+      this.secondsRemaining = secondsRemaining;
+      this.formattedSecondsRemaining =
+        formatSecondsToMinutes(secondsRemaining);
+    },
+
+    resetTask() {
+      Object.assign(this.$state, initialState);
     }
   },
 });
