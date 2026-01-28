@@ -7,6 +7,7 @@ import DefaultInput from "../DefaultInput/index";
 import type { TaskModel } from "../../models/TaskModel";
 import { useTaskStore } from "../../store/taskStore";
 import Tips from "../Tips/index";
+import { showMessage } from "../../adapters/showMessage";
 
 const taskStore = useTaskStore();
 const taskName = ref<string>("");
@@ -14,7 +15,7 @@ const taskName = ref<string>("");
 function handleCreateNewTask(e: Event) {
   const formattedTaskName = taskName.value.trim();
   if (!formattedTaskName) {
-    alert("Please enter a valid task name.");
+    showMessage.warn("Please enter a valid task.");
     return;
   }
 
@@ -30,10 +31,12 @@ function handleCreateNewTask(e: Event) {
 
   // Atualiza o estado do Pinia
   taskStore.createTask(newTask);
+  showMessage.success("Tasked created with sucess.");
 }
 
 function handleInterruptTask() {
   taskStore.interruptTask();
+  showMessage.error("Tasked interrupt.");
 }
 </script>
 

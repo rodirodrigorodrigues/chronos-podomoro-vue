@@ -4,6 +4,7 @@ import { loadBeep } from "../utils/loadBeep";
 import { useTaskStore } from "../store/taskStore";
 
 export function useTimerWorker() {
+  // TODO: numa v2 (resolver este acoplamento)
   const store = useTaskStore();
   const worker = TimerWorkerSingleton.getInstance();
   let playBeep: ReturnType<typeof loadBeep> | null = null;
